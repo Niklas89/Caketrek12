@@ -1,31 +1,31 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 3408
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: 127.0.0.1 (MySQL 5.5.25)
-# Database: cake_trek
-# Generation Time: 2013-01-25 12:34:12 +0100
-# ************************************************************
+-- phpMyAdmin SQL Dump
+-- version 3.3.9
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 25, 2013 at 02:33 PM
+-- Server version: 5.1.53
+-- PHP Version: 5.3.4
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+--
+-- Database: `cake_trek`
+--
 
-# Dump of table comments
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `comments`;
+--
+-- Table structure for table `comments`
+--
 
-CREATE TABLE `comments` (
+CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `obj_type` varchar(125) DEFAULT NULL,
@@ -34,60 +34,69 @@ CREATE TABLE `comments` (
   `date` datetime DEFAULT NULL,
   `note` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `comments`
+--
 
 
+-- --------------------------------------------------------
 
-# Dump of table guides
-# ------------------------------------------------------------
+--
+-- Table structure for table `guides`
+--
 
-DROP TABLE IF EXISTS `guides`;
-
-CREATE TABLE `guides` (
+CREATE TABLE IF NOT EXISTS `guides` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `diplome` varchar(125) DEFAULT NULL,
   `langues` varchar(125) DEFAULT NULL,
   `experience` varchar(125) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `tourist_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Dumping data for table `guides`
+--
 
+INSERT INTO `guides` (`id`, `diplome`, `langues`, `experience`, `tourist_id`) VALUES
+(1, 'Diplome-montagnar', 'fr,en,de', 'Expert', 2);
 
-# Dump of table journeys
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `journeys`;
+--
+-- Table structure for table `journeys`
+--
 
-CREATE TABLE `journeys` (
+CREATE TABLE IF NOT EXISTS `journeys` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `tourist_id` int(11) DEFAULT NULL,
   `zone_id` int(11) DEFAULT NULL,
   `nom` varchar(250) DEFAULT NULL,
   `createur` varchar(125) DEFAULT NULL,
   `date` varchar(125) DEFAULT NULL,
   `message` longtext,
   `nbparticipants` varchar(125) DEFAULT NULL,
+  `participants` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-LOCK TABLES `journeys` WRITE;
-/*!40000 ALTER TABLE `journeys` DISABLE KEYS */;
+--
+-- Dumping data for table `journeys`
+--
 
-INSERT INTO `journeys` (`id`, `user_id`, `zone_id`, `nom`, `createur`, `date`, `message`, `nbparticipants`)
-VALUES
-  (1,1,1,'la montagne','','','','');
+INSERT INTO `journeys` (`id`, `tourist_id`, `zone_id`, `nom`, `createur`, `date`, `message`, `nbparticipants`, `participants`) VALUES
+(1, 1, 1, 'la montagne', 'Robert', '13/04/2013', 'journey dans la montagne', '12', NULL),
+(2, 3, 1, 'Desert du mali', 'Alice', '17/02/2013', 'desert du mali balade', '5', NULL);
 
-/*!40000 ALTER TABLE `journeys` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `tourists`
+--
 
-# Dump of table tourists
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `tourists`;
-
-CREATE TABLE `tourists` (
+CREATE TABLE IF NOT EXISTS `tourists` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nom` varchar(250) DEFAULT NULL,
   `prenom` varchar(250) DEFAULT NULL,
@@ -96,89 +105,79 @@ CREATE TABLE `tourists` (
   `email` varchar(250) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-LOCK TABLES `tourists` WRITE;
-/*!40000 ALTER TABLE `tourists` DISABLE KEYS */;
+--
+-- Dumping data for table `tourists`
+--
 
-INSERT INTO `tourists` (`id`, `nom`, `prenom`, `age`, `nationalite`, `email`, `user_id`)
-VALUES
-	(1,'le montagnard','Robert','1993-02-27 12:16:00','suisse','',2),
-	(2,'la randonneuse','alice','2013-01-25 12:20:00','belge','',3);
+INSERT INTO `tourists` (`id`, `nom`, `prenom`, `age`, `nationalite`, `email`, `user_id`) VALUES
+(1, 'le montagnard', 'Robert', '1993-02-27 12:16:00', 'suisse', '', 2),
+(2, 'la randonneuse', 'alice', '2013-01-25 12:20:00', 'belge', '', 3);
 
-/*!40000 ALTER TABLE `tourists` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `tracks`
+--
 
-# Dump of table tracks
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `tracks`;
-
-CREATE TABLE `tracks` (
+CREATE TABLE IF NOT EXISTS `tracks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) DEFAULT NULL,
   `duree` varchar(250) DEFAULT NULL,
   `distance` varchar(250) DEFAULT NULL,
   `difficulte` varchar(125) DEFAULT NULL,
   `guide_id` int(11) DEFAULT NULL,
+  `nom_guide` varchar(255) DEFAULT NULL,
+  `zone_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Dumping data for table `tracks`
+--
 
+INSERT INTO `tracks` (`id`, `nom`, `duree`, `distance`, `difficulte`, `guide_id`, `nom_guide`, `zone_id`) VALUES
+(1, 'track de 7h', '7h', '70km', 'Moyenne', 1, 'alice', 1);
 
-# Dump of table users
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `users`;
+--
+-- Table structure for table `users`
+--
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(125) DEFAULT NULL,
   `password` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+--
+-- Dumping data for table `users`
+--
 
-INSERT INTO `users` (`id`, `pseudo`, `password`)
-VALUES
-	(1,NULL,NULL),
-	(2,NULL,NULL),
-	(3,NULL,NULL);
+INSERT INTO `users` (`id`, `pseudo`, `password`) VALUES
+(2, 'Robert', 'test'),
+(3, 'alice', 'test'),
+(4, 'Niklas', 'test');
 
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `zones`
+--
 
-# Dump of table zones
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `zones`;
-
-CREATE TABLE `zones` (
+CREATE TABLE IF NOT EXISTS `zones` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nom` varchar(250) DEFAULT NULL,
   `pays` varchar(250) DEFAULT NULL,
-  `track_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-LOCK TABLES `zones` WRITE;
-/*!40000 ALTER TABLE `zones` DISABLE KEYS */;
+--
+-- Dumping data for table `zones`
+--
 
-INSERT INTO `zones` (`id`, `nom`, `pays`, `track_id`)
-VALUES
-	(1,'Front','Mali',NULL);
-
-/*!40000 ALTER TABLE `zones` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `zones` (`id`, `nom`, `pays`) VALUES
+(1, 'Front', 'Mali');
