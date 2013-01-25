@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.25)
 # Database: cake_trek
-# Generation Time: 2013-01-25 11:13:53 +0100
+# Generation Time: 2013-01-25 12:34:12 +0100
 # ************************************************************
 
 
@@ -45,13 +45,8 @@ DROP TABLE IF EXISTS `guides`;
 
 CREATE TABLE `guides` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `nom` varchar(125) DEFAULT NULL,
   `diplome` varchar(125) DEFAULT NULL,
-  `note` varchar(125) DEFAULT NULL,
-  `prenom` varchar(125) DEFAULT NULL,
-  `email` varchar(125) DEFAULT NULL,
   `langues` varchar(125) DEFAULT NULL,
-  `nationalite` varchar(125) DEFAULT NULL,
   `experience` varchar(125) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -76,6 +71,15 @@ CREATE TABLE `journeys` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `journeys` WRITE;
+/*!40000 ALTER TABLE `journeys` DISABLE KEYS */;
+
+INSERT INTO `journeys` (`id`, `user_id`, `zone_id`, `nom`, `createur`, `date`, `message`, `nbparticipants`)
+VALUES
+  (1,1,1,'la montagne','','','','');
+
+/*!40000 ALTER TABLE `journeys` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table tourists
@@ -90,11 +94,20 @@ CREATE TABLE `tourists` (
   `age` datetime DEFAULT NULL,
   `nationalite` varchar(250) DEFAULT NULL,
   `email` varchar(250) DEFAULT NULL,
-  `niveau` varchar(250) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `tourists` WRITE;
+/*!40000 ALTER TABLE `tourists` DISABLE KEYS */;
+
+INSERT INTO `tourists` (`id`, `nom`, `prenom`, `age`, `nationalite`, `email`, `user_id`)
+VALUES
+	(1,'le montagnard','Robert','1993-02-27 12:16:00','suisse','',2),
+	(2,'la randonneuse','alice','2013-01-25 12:20:00','belge','',3);
+
+/*!40000 ALTER TABLE `tourists` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table tracks
@@ -105,10 +118,9 @@ DROP TABLE IF EXISTS `tracks`;
 CREATE TABLE `tracks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `duree` varchar(250) DEFAULT NULL,
-  `createur` varchar(250) DEFAULT NULL,
   `distance` varchar(250) DEFAULT NULL,
   `difficulte` varchar(125) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `guide_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -121,8 +133,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(250) DEFAULT '',
-  `email` varchar(250) DEFAULT NULL,
+  `pseudo` varchar(125) DEFAULT NULL,
   `password` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -130,9 +141,11 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `pseudo`, `email`, `password`)
+INSERT INTO `users` (`id`, `pseudo`, `password`)
 VALUES
-  (1,'admin','admin@gmail.com','admin');
+	(1,NULL,NULL),
+	(2,NULL,NULL),
+	(3,NULL,NULL);
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -147,9 +160,19 @@ CREATE TABLE `zones` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nom` varchar(250) DEFAULT NULL,
   `pays` varchar(250) DEFAULT NULL,
+  `track_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `zones` WRITE;
+/*!40000 ALTER TABLE `zones` DISABLE KEYS */;
+
+INSERT INTO `zones` (`id`, `nom`, `pays`, `track_id`)
+VALUES
+	(1,'Front','Mali',NULL);
+
+/*!40000 ALTER TABLE `zones` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
